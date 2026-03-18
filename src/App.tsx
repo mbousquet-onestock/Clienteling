@@ -776,7 +776,7 @@ const CustomerProfile = ({
                     <div key={p.id} className="flex items-center gap-3">
                       <img src={p.image} alt={p.name} className="w-12 h-12 rounded-lg object-cover" referrerPolicy="no-referrer" />
                       <div>
-                        <p className="text-sm font-medium">{p.name}</p>
+                        <p className="text-sm font-bold text-onestock-navy uppercase tracking-tight">{p.name}</p>
                         <p className="text-xs text-gray-500">{p.price}€ • {p.color} • {p.size}</p>
                         <p className="text-[10px] text-gray-400 font-mono">SKU: {p.sku}</p>
                       </div>
@@ -792,7 +792,7 @@ const CustomerProfile = ({
                     <div key={p.id} className="flex items-center gap-3">
                       <img src={p.image} alt={p.name} className="w-12 h-12 rounded-lg object-cover" referrerPolicy="no-referrer" />
                       <div>
-                        <p className="text-sm font-medium">{p.name}</p>
+                        <p className="text-sm font-bold text-onestock-navy uppercase tracking-tight">{p.name}</p>
                         <p className="text-xs text-gray-500">{p.price}€ • {p.color} • {p.size}</p>
                         <p className="text-[10px] text-gray-400 font-mono">SKU: {p.sku}</p>
                       </div>
@@ -824,7 +824,7 @@ const CustomerProfile = ({
                       </button>
                     </div>
                   </div>
-                  <p className="text-sm font-medium truncate">{p.name}</p>
+                  <p className="text-sm font-bold text-onestock-navy uppercase tracking-tight truncate">{p.name}</p>
                   <p className="text-xs text-gray-500">{p.price}€</p>
                 </div>
               ))}
@@ -841,7 +841,7 @@ const CustomerProfile = ({
                   <img src={rev.product?.image} alt={rev.product?.name} className="w-16 h-16 rounded-lg object-cover shrink-0" referrerPolicy="no-referrer" />
                   <div className="space-y-1">
                     <div className="flex justify-between items-start">
-                      <p className="text-sm font-bold">{rev.product?.name}</p>
+                      <p className="text-sm font-bold text-onestock-navy uppercase tracking-tight">{rev.product?.name}</p>
                       <div className="flex text-yellow-400">
                         {Array.from({ length: 5 }).map((_, idx) => (
                           <Star key={idx} size={10} fill={idx < (rev.rating || 0) ? "currentColor" : "none"} />
@@ -865,44 +865,29 @@ const CustomerProfile = ({
             <h3 className="text-xl font-serif italic mb-4 flex items-center gap-2">
               <ShoppingBasket size={20} /> Historique de commandes
             </h3>
-            <Card className="p-0 overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm min-w-[600px] md:min-w-full">
-                  <thead className="bg-gray-50 text-gray-500 uppercase text-[10px] tracking-widest">
-                    <tr>
-                      <th className="px-4 md:px-6 py-4 text-left">Date</th>
-                      <th className="px-4 md:px-6 py-4 text-left">Article</th>
-                      <th className="px-4 md:px-6 py-4 text-left">Détails</th>
-                      <th className="px-4 md:px-6 py-4 text-right">Prix</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {purchasedProducts.map((p, i) => (
-                      <tr key={i} className="hover:bg-gray-50">
-                        <td className="px-4 md:px-6 py-4 font-mono text-xs whitespace-nowrap">{p.purchaseDate}</td>
-                        <td className="px-4 md:px-6 py-4">
-                          <div className="flex items-center gap-3 min-w-[150px]">
-                            <img src={p.image} alt={p.name} className="w-8 h-8 rounded object-cover shrink-0" referrerPolicy="no-referrer" />
-                            <span className="font-medium truncate">{p.name}</span>
-                          </div>
-                        </td>
-                        <td className="px-4 md:px-6 py-4 text-xs text-gray-500 whitespace-nowrap">
-                          {p.color} • {p.size} • <span className="font-mono">{p.sku}</span>
-                        </td>
-                        <td className="px-4 md:px-6 py-4 text-right font-bold whitespace-nowrap">
-                          {p.price.toFixed(2)}€
-                        </td>
-                      </tr>
-                    ))}
-                    {purchasedProducts.length === 0 && (
-                      <tr>
-                        <td colSpan={4} className="px-6 py-8 text-center text-gray-400 italic">
-                          Aucune commande trouvée
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
+            <Card className="p-6">
+              <div className="space-y-4">
+                {purchasedProducts.map((p, i) => (
+                  <div key={i} className="flex items-center justify-between gap-4 border-b border-gray-100 pb-4 last:border-0 last:pb-0">
+                    <div className="flex items-center gap-3">
+                      <img src={p.image} alt={p.name} className="w-14 h-14 rounded-xl object-cover shrink-0" referrerPolicy="no-referrer" />
+                      <div>
+                        <p className="text-sm font-bold text-onestock-navy uppercase tracking-tight">{p.name}</p>
+                        <p className="text-xs text-gray-500">{p.price.toFixed(2)}€ • {p.color} • {p.size}</p>
+                        <p className="text-[10px] text-gray-400 font-mono">SKU: {p.sku}</p>
+                      </div>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-1">Achat le</p>
+                      <p className="text-xs font-mono bg-gray-100 px-2 py-1 rounded-lg">{p.purchaseDate}</p>
+                    </div>
+                  </div>
+                ))}
+                {purchasedProducts.length === 0 && (
+                  <p className="py-8 text-center text-gray-400 italic">
+                    Aucune commande trouvée
+                  </p>
+                )}
               </div>
             </Card>
           </section>
@@ -921,53 +906,39 @@ const CustomerProfile = ({
                 <Plus size={14} className="mr-1" /> Nouveau RDV
               </Button>
             </div>
-            <Card className="p-0 overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm min-w-[500px] md:min-w-full">
-                  <thead className="bg-gray-50 text-gray-500 uppercase text-[10px] tracking-widest">
-                    <tr>
-                      <th className="px-4 md:px-6 py-4 text-left">Date & Heure</th>
-                      <th className="px-4 md:px-6 py-4 text-left">Motif</th>
-                      <th className="px-4 md:px-6 py-4 text-left">Durée</th>
-                      <th className="px-4 md:px-6 py-4 text-right">Statut</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {customer.appointments?.map((apt, i) => {
-                      const aptDate = new Date(`${apt.date}T${apt.time}`);
-                      const isPast = aptDate < new Date();
-                      return (
-                        <tr key={i} className="hover:bg-gray-50">
-                          <td className="px-4 md:px-6 py-4 whitespace-nowrap">
-                            <p className="font-medium">{apt.date}</p>
-                            <p className="text-xs text-gray-500">{apt.time}</p>
-                          </td>
-                          <td className="px-4 md:px-6 py-4">
-                            <span className={cn(
-                              "px-2 py-1 rounded-full text-[10px] font-bold uppercase whitespace-nowrap",
-                              apt.motif === 'shopping solo' ? "bg-blue-100 text-blue-700" : "bg-purple-100 text-purple-700"
-                            )}>
-                              {apt.motif}
-                            </span>
-                          </td>
-                          <td className="px-4 md:px-6 py-4 text-gray-500 whitespace-nowrap">{apt.duration}</td>
-                          <td className="px-4 md:px-6 py-4 text-right">
-                            <Badge variant={isPast ? 'default' : 'outline'} className="text-[9px] whitespace-nowrap">
-                              {isPast ? 'Passé' : 'À venir'}
-                            </Badge>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                    {(!customer.appointments || customer.appointments.length === 0) && (
-                      <tr>
-                        <td colSpan={4} className="px-6 py-8 text-center text-gray-400 italic">
-                          Aucun rendez-vous prévu
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
+            <Card className="p-6">
+              <div className="space-y-4">
+                {customer.appointments?.map((apt, i) => {
+                  const aptDate = new Date(`${apt.date}T${apt.time}`);
+                  const isPast = aptDate < new Date();
+                  return (
+                    <div key={i} className="flex items-center justify-between gap-4 border-b border-gray-100 pb-4 last:border-0 last:pb-0">
+                      <div className="flex items-center gap-3">
+                        <div className={cn(
+                          "w-14 h-14 rounded-xl flex items-center justify-center shrink-0",
+                          apt.motif === 'shopping solo' ? "bg-blue-50 text-blue-500" : "bg-purple-50 text-purple-500"
+                        )}>
+                          <Calendar size={24} />
+                        </div>
+                        <div>
+                          <p className="text-sm font-bold text-onestock-navy uppercase tracking-tight">{apt.motif}</p>
+                          <p className="text-xs text-gray-500">{apt.date} • {apt.time}</p>
+                          <p className="text-[10px] text-gray-400 font-mono">Durée: {apt.duration}</p>
+                        </div>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <Badge variant={isPast ? 'default' : 'outline'} className="text-[9px] uppercase tracking-widest">
+                          {isPast ? 'Passé' : 'À venir'}
+                        </Badge>
+                      </div>
+                    </div>
+                  );
+                })}
+                {(!customer.appointments || customer.appointments.length === 0) && (
+                  <p className="py-8 text-center text-gray-400 italic">
+                    Aucun rendez-vous prévu
+                  </p>
+                )}
               </div>
             </Card>
           </section>
