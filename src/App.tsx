@@ -866,42 +866,44 @@ const CustomerProfile = ({
               <ShoppingBasket size={20} /> Historique de commandes
             </h3>
             <Card className="p-0 overflow-hidden">
-              <table className="w-full text-sm">
-                <thead className="bg-gray-50 text-gray-500 uppercase text-[10px] tracking-widest">
-                  <tr>
-                    <th className="px-6 py-4 text-left">Date</th>
-                    <th className="px-6 py-4 text-left">Article</th>
-                    <th className="px-6 py-4 text-left">Détails</th>
-                    <th className="px-6 py-4 text-right">Prix</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  {purchasedProducts.map((p, i) => (
-                    <tr key={i} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 font-mono text-xs">{p.purchaseDate}</td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
-                          <img src={p.image} alt={p.name} className="w-8 h-8 rounded object-cover" referrerPolicy="no-referrer" />
-                          <span className="font-medium">{p.name}</span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 text-xs text-gray-500">
-                        {p.color} • {p.size} • <span className="font-mono">{p.sku}</span>
-                      </td>
-                      <td className="px-6 py-4 text-right font-bold">
-                        {p.price.toFixed(2)}€
-                      </td>
-                    </tr>
-                  ))}
-                  {purchasedProducts.length === 0 && (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm min-w-[600px] md:min-w-full">
+                  <thead className="bg-gray-50 text-gray-500 uppercase text-[10px] tracking-widest">
                     <tr>
-                      <td colSpan={4} className="px-6 py-8 text-center text-gray-400 italic">
-                        Aucune commande trouvée
-                      </td>
+                      <th className="px-4 md:px-6 py-4 text-left">Date</th>
+                      <th className="px-4 md:px-6 py-4 text-left">Article</th>
+                      <th className="px-4 md:px-6 py-4 text-left">Détails</th>
+                      <th className="px-4 md:px-6 py-4 text-right">Prix</th>
                     </tr>
-                  )}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100">
+                    {purchasedProducts.map((p, i) => (
+                      <tr key={i} className="hover:bg-gray-50">
+                        <td className="px-4 md:px-6 py-4 font-mono text-xs whitespace-nowrap">{p.purchaseDate}</td>
+                        <td className="px-4 md:px-6 py-4">
+                          <div className="flex items-center gap-3 min-w-[150px]">
+                            <img src={p.image} alt={p.name} className="w-8 h-8 rounded object-cover shrink-0" referrerPolicy="no-referrer" />
+                            <span className="font-medium truncate">{p.name}</span>
+                          </div>
+                        </td>
+                        <td className="px-4 md:px-6 py-4 text-xs text-gray-500 whitespace-nowrap">
+                          {p.color} • {p.size} • <span className="font-mono">{p.sku}</span>
+                        </td>
+                        <td className="px-4 md:px-6 py-4 text-right font-bold whitespace-nowrap">
+                          {p.price.toFixed(2)}€
+                        </td>
+                      </tr>
+                    ))}
+                    {purchasedProducts.length === 0 && (
+                      <tr>
+                        <td colSpan={4} className="px-6 py-8 text-center text-gray-400 italic">
+                          Aucune commande trouvée
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </Card>
           </section>
 
@@ -920,51 +922,53 @@ const CustomerProfile = ({
               </Button>
             </div>
             <Card className="p-0 overflow-hidden">
-              <table className="w-full text-sm">
-                <thead className="bg-gray-50 text-gray-500 uppercase text-[10px] tracking-widest">
-                  <tr>
-                    <th className="px-6 py-4 text-left">Date & Heure</th>
-                    <th className="px-6 py-4 text-left">Motif</th>
-                    <th className="px-6 py-4 text-left">Durée</th>
-                    <th className="px-6 py-4 text-right">Statut</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  {customer.appointments?.map((apt, i) => {
-                    const aptDate = new Date(`${apt.date}T${apt.time}`);
-                    const isPast = aptDate < new Date();
-                    return (
-                      <tr key={i} className="hover:bg-gray-50">
-                        <td className="px-6 py-4">
-                          <p className="font-medium">{apt.date}</p>
-                          <p className="text-xs text-gray-500">{apt.time}</p>
-                        </td>
-                        <td className="px-6 py-4">
-                          <span className={cn(
-                            "px-2 py-1 rounded-full text-[10px] font-bold uppercase",
-                            apt.motif === 'shopping solo' ? "bg-blue-100 text-blue-700" : "bg-purple-100 text-purple-700"
-                          )}>
-                            {apt.motif}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 text-gray-500">{apt.duration}</td>
-                        <td className="px-6 py-4 text-right">
-                          <Badge variant={isPast ? 'default' : 'outline'} className="text-[9px]">
-                            {isPast ? 'Passé' : 'À venir'}
-                          </Badge>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm min-w-[500px] md:min-w-full">
+                  <thead className="bg-gray-50 text-gray-500 uppercase text-[10px] tracking-widest">
+                    <tr>
+                      <th className="px-4 md:px-6 py-4 text-left">Date & Heure</th>
+                      <th className="px-4 md:px-6 py-4 text-left">Motif</th>
+                      <th className="px-4 md:px-6 py-4 text-left">Durée</th>
+                      <th className="px-4 md:px-6 py-4 text-right">Statut</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100">
+                    {customer.appointments?.map((apt, i) => {
+                      const aptDate = new Date(`${apt.date}T${apt.time}`);
+                      const isPast = aptDate < new Date();
+                      return (
+                        <tr key={i} className="hover:bg-gray-50">
+                          <td className="px-4 md:px-6 py-4 whitespace-nowrap">
+                            <p className="font-medium">{apt.date}</p>
+                            <p className="text-xs text-gray-500">{apt.time}</p>
+                          </td>
+                          <td className="px-4 md:px-6 py-4">
+                            <span className={cn(
+                              "px-2 py-1 rounded-full text-[10px] font-bold uppercase whitespace-nowrap",
+                              apt.motif === 'shopping solo' ? "bg-blue-100 text-blue-700" : "bg-purple-100 text-purple-700"
+                            )}>
+                              {apt.motif}
+                            </span>
+                          </td>
+                          <td className="px-4 md:px-6 py-4 text-gray-500 whitespace-nowrap">{apt.duration}</td>
+                          <td className="px-4 md:px-6 py-4 text-right">
+                            <Badge variant={isPast ? 'default' : 'outline'} className="text-[9px] whitespace-nowrap">
+                              {isPast ? 'Passé' : 'À venir'}
+                            </Badge>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                    {(!customer.appointments || customer.appointments.length === 0) && (
+                      <tr>
+                        <td colSpan={4} className="px-6 py-8 text-center text-gray-400 italic">
+                          Aucun rendez-vous prévu
                         </td>
                       </tr>
-                    );
-                  })}
-                  {(!customer.appointments || customer.appointments.length === 0) && (
-                    <tr>
-                      <td colSpan={4} className="px-6 py-8 text-center text-gray-400 italic">
-                        Aucun rendez-vous prévu
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </Card>
           </section>
         </div>
