@@ -13,6 +13,9 @@ export interface Product {
   image: string;
   description: string;
   rating: number;
+  color?: string;
+  size?: string;
+  sku?: string;
 }
 
 export interface Interaction {
@@ -29,6 +32,38 @@ export interface Reward {
   value: number;
   type: 'discount' | 'gift';
   expiryDate: string;
+}
+
+export interface Child {
+  id: string;
+  firstName: string;
+  lastName: string;
+  gender: 'garçon' | 'fille';
+  birthDate: string;
+  preferredSizes?: PreferredSizes;
+}
+
+export interface Address {
+  street: string;
+  city: string;
+  zipCode: string;
+  country: string;
+}
+
+export interface PreferredSizes {
+  shoes?: string;
+  tops?: string;
+  pants?: string;
+  dresses?: string;
+  jackets?: string;
+}
+
+export interface Appointment {
+  id: string;
+  date: string;
+  time: string;
+  motif: 'shopping solo' | 'shopping groupe';
+  duration: string;
 }
 
 export interface Customer {
@@ -58,6 +93,10 @@ export interface Customer {
   address?: string;
   city?: string;
   zipCode?: string;
+  billingAddress?: Address;
+  shippingAddress?: Address;
+  children?: Child[];
+  preferredSizes?: PreferredSizes;
   birthDate?: string;
   preferredCommChannel?: string;
   preferredPurchaseChannel?: string;
@@ -66,6 +105,7 @@ export interface Customer {
   lastPurchaseDate?: string;
   commChannels?: string[];
   loyaltyCardType?: string;
+  appointments?: Appointment[];
 }
 
 export interface StoreContext {
