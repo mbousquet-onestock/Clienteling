@@ -59,7 +59,15 @@ export const MOCK_CUSTOMERS: Customer[] = [
     address: '8 avenue des Champs-Élysées',
     city: 'Paris',
     zipCode: '75001',
-    storeId: '26'
+    storeId: '26',
+    birthDate: '1980-03-15',
+    preferredCommChannel: 'Email',
+    preferredPurchaseChannel: 'Magasin',
+    emailQuality: 'OK',
+    smsQuality: 'OK',
+    lastPurchaseDate: '2022-12-15',
+    commChannels: ['Email', 'SMS'],
+    loyaltyCardType: 'Physique'
   },
   {
     id: 'fnf2tt',
@@ -80,7 +88,15 @@ export const MOCK_CUSTOMERS: Customer[] = [
     address: '72 rue de la Paix',
     city: 'Toulouse',
     zipCode: '31000',
-    storeId: '26'
+    storeId: '26',
+    birthDate: '1992-07-22',
+    preferredCommChannel: 'SMS',
+    preferredPurchaseChannel: 'Magasin',
+    emailQuality: 'KO',
+    smsQuality: 'OK',
+    lastPurchaseDate: '2022-09-10',
+    commChannels: ['SMS'],
+    loyaltyCardType: 'Dématérialisée'
   },
   {
     id: 'h1kdkh',
@@ -106,7 +122,15 @@ export const MOCK_CUSTOMERS: Customer[] = [
     city: 'Nantes',
     zipCode: '44000',
     storeId: '12189',
-    loyaltyCardNumber: '9110000655870.0'
+    loyaltyCardNumber: '9110000655870.0',
+    birthDate: '1975-11-30',
+    preferredCommChannel: 'Both',
+    preferredPurchaseChannel: 'Web',
+    emailQuality: 'OK',
+    smsQuality: 'OK',
+    lastPurchaseDate: '2025-05-23',
+    commChannels: ['Email', 'SMS'],
+    loyaltyCardType: 'Physique'
   },
   {
     id: '5qy0w8',
@@ -129,7 +153,15 @@ export const MOCK_CUSTOMERS: Customer[] = [
     city: 'Toulouse',
     zipCode: '31000',
     storeId: '101',
-    loyaltyCardNumber: '9110000816028.0'
+    loyaltyCardNumber: '9110000816028.0',
+    birthDate: '1988-01-10',
+    preferredCommChannel: 'Email',
+    preferredPurchaseChannel: 'Magasin',
+    emailQuality: 'OK',
+    smsQuality: 'KO',
+    lastPurchaseDate: '2024-05-01',
+    commChannels: ['Email'],
+    loyaltyCardType: 'Collaborateur'
   },
   {
     id: '6tdr8w',
@@ -156,7 +188,15 @@ export const MOCK_CUSTOMERS: Customer[] = [
     city: 'Marseille',
     zipCode: '13001',
     storeId: '7007',
-    loyaltyCardNumber: '9110000117804.0'
+    loyaltyCardNumber: '9110000117804.0',
+    birthDate: '1982-09-05',
+    preferredCommChannel: 'Email',
+    preferredPurchaseChannel: 'Magasin',
+    emailQuality: 'OK',
+    smsQuality: 'OK',
+    lastPurchaseDate: '2026-01-24',
+    commChannels: ['Email', 'SMS'],
+    loyaltyCardType: 'Collaborateur'
   },
   {
     id: '000ghb',
@@ -180,6 +220,14 @@ export const MOCK_CUSTOMERS: Customer[] = [
     city: 'Paris',
     zipCode: '75001',
     storeId: '10267',
-    loyaltyCardNumber: '9710267094078.0'
+    loyaltyCardNumber: '9710267094078.0',
+    birthDate: '1995-12-12',
+    preferredCommChannel: 'Both',
+    preferredPurchaseChannel: 'Web',
+    emailQuality: 'OK',
+    smsQuality: 'OK',
+    lastPurchaseDate: '2025-09-19',
+    commChannels: ['Email', 'SMS'],
+    loyaltyCardType: 'Dématérialisée'
   }
 ];

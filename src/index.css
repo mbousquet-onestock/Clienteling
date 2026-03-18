@@ -4,4 +4,7 @@
 @theme {
   --font-serif: "Cormorant Garamond", serif;
   --font-sans: "Inter", sans-serif;
+  --color-onestock-blue: #00A3E0;
+  --color-onestock-navy: #002F5F;
+  --color-onestock-light: #F4F7F9;
 }

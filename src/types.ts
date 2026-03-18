@@ -58,6 +58,14 @@ export interface Customer {
   address?: string;
   city?: string;
   zipCode?: string;
+  birthDate?: string;
+  preferredCommChannel?: string;
+  preferredPurchaseChannel?: string;
+  emailQuality?: 'OK' | 'KO';
+  smsQuality?: 'OK' | 'KO';
+  lastPurchaseDate?: string;
+  commChannels?: string[];
+  loyaltyCardType?: string;
 }
 
 export interface StoreContext {

@@ -20,7 +20,15 @@ import {
   CreditCard,
   Globe,
   Smartphone,
-  Info
+  Info,
+  XCircle,
+  Mail,
+  MessageSquare,
+  Calendar,
+  ShoppingBasket,
+  Edit2,
+  Save,
+  X
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { clsx, type ClassValue } from 'clsx';
@@ -41,17 +49,24 @@ const Button = ({
   ...props 
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary' | 'secondary' | 'outline' | 'ghost' }) => {
   const variants = {
-    primary: 'bg-[#5A5A40] text-white hover:bg-[#4A4A30]',
-    secondary: 'bg-[#E6E6E6] text-[#1a1a1a] hover:bg-[#D6D6D6]',
-    outline: 'border border-[#5A5A40] text-[#5A5A40] hover:bg-[#5A5A40]/5',
-    ghost: 'text-[#5A5A40] hover:bg-[#5A5A40]/5'
+    primary: 'bg-onestock-blue text-white hover:bg-onestock-navy transition-colors',
+    secondary: 'bg-onestock-light text-onestock-navy hover:bg-gray-200',
+    outline: 'border border-onestock-blue text-onestock-blue hover:bg-onestock-blue/5',
+    ghost: 'text-onestock-blue hover:bg-onestock-blue/5'
+  };
+
+  const sizes = {
+    sm: 'px-4 py-2 text-xs',
+    md: 'px-6 py-3 text-base',
+    lg: 'px-8 py-4 text-lg'
   };
 
   return (
     <button 
       className={cn(
-        'px-6 py-3 rounded-full font-medium transition-all active:scale-95 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2',
+        'rounded-full font-medium transition-all active:scale-95 disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-2',
         variants[variant],
+        sizes[props.size as keyof typeof sizes || 'md'],
         className
       )}
       {...props}
@@ -67,13 +82,14 @@ const Card = ({ children, className }: { children: React.ReactNode, className?: 
   </div>
 );
 
-const Badge = ({ children, variant = 'default' }: { children: React.ReactNode, variant?: 'default' | 'gold' | 'silver' | 'bronze' | 'staff' }) => {
+const Badge = ({ children, variant = 'default', className, ...props }: { children: React.ReactNode, variant?: 'default' | 'gold' | 'silver' | 'bronze' | 'staff' | 'outline', className?: string } & React.HTMLAttributes<HTMLSpanElement>) => {
   const variants = {
     default: 'bg-gray-100 text-gray-600',
     gold: 'bg-yellow-100 text-yellow-700 border border-yellow-200',
     silver: 'bg-slate-100 text-slate-700 border border-slate-200',
     bronze: 'bg-orange-100 text-orange-700 border border-orange-200',
-    staff: 'bg-purple-100 text-purple-700 border border-purple-200'
+    staff: 'bg-purple-100 text-purple-700 border border-purple-200',
+    outline: 'border border-gray-200 text-gray-500 bg-transparent'
   };
 
   const statusMap: Record<string, keyof typeof variants> = {
@@ -87,7 +103,10 @@ const Badge = ({ children, variant = 'default' }: { children: React.ReactNode, v
   const v = typeof children === 'string' ? statusMap[children] || 'default' : variant;
 
   return (
-    <span className={cn('px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider', variants[v])}>
+    <span 
+      className={cn('px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider inline-flex items-center', variants[v], className)}
+      {...props}
+    >
       {children}
     </span>
   );
@@ -95,9 +114,16 @@ const Badge = ({ children, variant = 'default' }: { children: React.ReactNode, v
 
 // --- Views ---
 
-const AdvisorDashboard = ({ onSelectCustomer, onSignup }: { onSelectCustomer: (c: Customer) => void, onSignup: () => void }) => {
+const AdvisorDashboard = ({ 
+  customers,
+  onSelectCustomer, 
+  onSignup 
+}: { 
+  customers: Customer[],
+  onSelectCustomer: (c: Customer) => void, 
+  onSignup: () => void 
+}) => {
   const [search, setSearch] = useState('');
-  const [customers, setCustomers] = useState(MOCK_CUSTOMERS);
 
   const filtered = customers.filter(c => 
     `${c.firstName} ${c.lastName}`.toLowerCase().includes(search.toLowerCase()) ||
@@ -110,7 +136,7 @@ const AdvisorDashboard = ({ onSelectCustomer, onSignup }: { onSelectCustomer: (c
     <div className="space-y-8">
       <header className="flex justify-between items-end">
         <div>
-          <h1 className="text-4xl font-serif font-light text-[#1a1a1a]">Bonjour, Sophie</h1>
+          <h1 className="text-4xl font-serif font-light text-onestock-navy">Bonjour, Sophie</h1>
           <p className="text-gray-500 italic">Prête à conseiller vos clients ?</p>
         </div>
         <Button onClick={onSignup} variant="outline">
@@ -123,7 +149,7 @@ const AdvisorDashboard = ({ onSelectCustomer, onSignup }: { onSelectCustomer: (c
         <input 
           type="text"
           placeholder="Rechercher un client (Nom, Email, Carte, Salarié...)"
-          className="w-full pl-16 pr-6 py-6 bg-white rounded-full border-none shadow-lg focus:ring-2 focus:ring-[#5A5A40] text-xl outline-none"
+          className="w-full pl-16 pr-6 py-6 bg-white rounded-full border-none shadow-lg focus:ring-2 focus:ring-onestock-blue text-xl outline-none"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -138,7 +164,7 @@ const AdvisorDashboard = ({ onSelectCustomer, onSignup }: { onSelectCustomer: (c
             className="cursor-pointer"
           >
             <Card className="flex items-center gap-6 hover:shadow-md transition-shadow">
-              <div className="w-20 h-20 rounded-full bg-[#f5f5f0] flex items-center justify-center text-[#5A5A40]">
+              <div className="w-20 h-20 rounded-full bg-onestock-light flex items-center justify-center text-onestock-blue">
                 <User size={40} />
               </div>
               <div className="flex-1">
@@ -150,14 +176,20 @@ const AdvisorDashboard = ({ onSelectCustomer, onSignup }: { onSelectCustomer: (c
                   <Badge>{customer.status}</Badge>
                 </div>
                 <p className="text-gray-500 text-sm">{customer.email}</p>
-                <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm font-mono text-[#5A5A40]">
-                  <span>{customer.points} points</span>
+                <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm font-mono text-onestock-blue">
+                  <span>{customer.points} pts</span>
                   <span className="w-1 h-1 rounded-full bg-gray-300" />
                   <span>{customer.city}</span>
-                  {customer.loyaltyCardNumber && (
+                  {customer.lastPurchaseDate && (
                     <>
                       <span className="w-1 h-1 rounded-full bg-gray-300" />
-                      <span className="text-xs opacity-60">#{customer.loyaltyCardNumber}</span>
+                      <span className="text-xs opacity-60">Achat: {customer.lastPurchaseDate}</span>
+                    </>
+                  )}
+                  {customer.loyaltyCardType && (
+                    <>
+                      <span className="w-1 h-1 rounded-full bg-gray-300" />
+                      <span className="text-xs opacity-60">{customer.loyaltyCardType}</span>
                     </>
                   )}
                 </div>
@@ -171,19 +203,134 @@ const AdvisorDashboard = ({ onSelectCustomer, onSignup }: { onSelectCustomer: (c
   );
 };
 
+const EditCustomerView = ({ 
+  customer, 
+  onBack, 
+  onSave 
+}: { 
+  customer: Customer, 
+  onBack: () => void, 
+  onSave: (updated: Customer) => void 
+}) => {
+  const [formData, setFormData] = useState({ ...customer });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  return (
+    <div className="max-w-2xl mx-auto space-y-8">
+      <nav className="flex items-center gap-4">
+        <button onClick={onBack} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+          <ArrowLeft size={24} />
+        </button>
+        <h2 className="text-2xl font-serif italic">Modifier le profil</h2>
+      </nav>
+
+      <Card className="space-y-6">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Prénom</label>
+            <input 
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              className="w-full p-3 bg-onestock-light rounded-xl border-none focus:ring-2 focus:ring-onestock-blue"
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Nom</label>
+            <input 
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              className="w-full p-3 bg-onestock-light rounded-xl border-none focus:ring-2 focus:ring-onestock-blue"
+            />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Email</label>
+          <input 
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full p-3 bg-onestock-light rounded-xl border-none focus:ring-2 focus:ring-onestock-blue"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Téléphone</label>
+          <input 
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            className="w-full p-3 bg-onestock-light rounded-xl border-none focus:ring-2 focus:ring-onestock-blue"
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Date de naissance</label>
+            <input 
+              type="date"
+              name="birthDate"
+              value={formData.birthDate}
+              onChange={handleChange}
+              className="w-full p-3 bg-onestock-light rounded-xl border-none focus:ring-2 focus:ring-onestock-blue"
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Type de carte</label>
+            <select 
+              name="loyaltyCardType"
+              value={formData.loyaltyCardType}
+              onChange={handleChange}
+              className="w-full p-3 bg-onestock-light rounded-xl border-none focus:ring-2 focus:ring-onestock-blue"
+            >
+              <option value="Physique">Physique</option>
+              <option value="Dématérialisée">Dématérialisée</option>
+              <option value="Collaborateur">Collaborateur</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="pt-6">
+          <Button onClick={() => onSave(formData)} className="w-full">
+            <Save size={20} /> Enregistrer les modifications
+          </Button>
+        </div>
+      </Card>
+    </div>
+  );
+};
+
 const CustomerProfile = ({ 
   customer, 
   onBack, 
   onCheckout,
-  onMerge
+  onMerge,
+  onEdit,
+  onAddTriedItem
 }: { 
   customer: Customer, 
   onBack: () => void, 
   onCheckout: () => void,
-  onMerge: () => void
+  onMerge: () => void,
+  onEdit: () => void,
+  onAddTriedItem: (productId: string) => void
 }) => {
+  const [isAddingTried, setIsAddingTried] = useState(false);
+  const [searchProduct, setSearchProduct] = useState('');
+
   const triedProducts = MOCK_PRODUCTS.filter(p => 
     customer.interactions.some(i => i.productId === p.id && i.type === 'tried')
+  );
+
+  const availableProducts = MOCK_PRODUCTS.filter(p => 
+    !customer.interactions.some(i => i.productId === p.id && i.type === 'tried') &&
+    p.name.toLowerCase().includes(searchProduct.toLowerCase())
   );
   const webViewedProducts = MOCK_PRODUCTS.filter(p => 
     customer.interactions.some(i => i.productId === p.id && i.type === 'viewed_web')
@@ -202,7 +349,7 @@ const CustomerProfile = ({
         {/* Left Column: Info & Loyalty */}
         <div className="space-y-6">
           <Card className="text-center">
-            <div className="w-32 h-32 rounded-full bg-[#f5f5f0] mx-auto flex items-center justify-center text-[#5A5A40] mb-4">
+            <div className="w-32 h-32 rounded-full bg-onestock-light mx-auto flex items-center justify-center text-onestock-blue mb-4">
               <User size={64} />
             </div>
             <h3 className="text-2xl font-medium">{customer.firstName} {customer.lastName}</h3>
@@ -214,16 +361,20 @@ const CustomerProfile = ({
             
             <div className="mt-4 text-sm text-gray-500 space-y-1">
               {customer.loyaltyCardNumber && <p>Carte: <span className="font-mono">{customer.loyaltyCardNumber}</span></p>}
+              {customer.loyaltyCardType && <p>Type: <span className="font-medium text-onestock-blue">{customer.loyaltyCardType}</span></p>}
               {customer.staffNumber && <p>Matricule: <span className="font-mono">{customer.staffNumber}</span></p>}
             </div>
 
-            <div className="mt-6 p-4 bg-[#f5f5f0] rounded-2xl">
+            <div className="mt-6 p-4 bg-onestock-light rounded-2xl">
               <p className="text-xs uppercase tracking-widest text-gray-500 mb-1">Points Fidélité</p>
-              <p className="text-4xl font-light text-[#5A5A40]">{customer.points}</p>
+              <p className="text-4xl font-light text-onestock-blue">{customer.points}</p>
             </div>
             <div className="mt-6 flex flex-col gap-3">
               <Button onClick={onCheckout} className="w-full">
                 <ShoppingBag size={20} /> Encaisser
+              </Button>
+              <Button onClick={onEdit} variant="outline" className="w-full">
+                <Edit2 size={20} /> Modifier Profil
               </Button>
               <Button onClick={onMerge} variant="outline" className="w-full">
                 <Merge size={20} /> Fusionner Compte
@@ -236,6 +387,12 @@ const CustomerProfile = ({
               <Info size={18} className="text-blue-500" /> Coordonnées
             </h4>
             <div className="space-y-3 text-sm">
+              {customer.birthDate && (
+                <div>
+                  <p className="text-xs text-gray-400 uppercase font-bold">Date de naissance</p>
+                  <p className="flex items-center gap-2"><Calendar size={14} /> {customer.birthDate}</p>
+                </div>
+              )}
               <div>
                 <p className="text-xs text-gray-400 uppercase font-bold">Adresse</p>
                 <p>{customer.address}</p>
@@ -254,16 +411,131 @@ const CustomerProfile = ({
               )}
             </div>
           </Card>
+
+          <Card>
+            <h4 className="font-medium mb-4 flex items-center gap-2">
+              <Smartphone size={18} className="text-emerald-500" /> Profil Marketing
+            </h4>
+            <div className="space-y-4 text-sm">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-[10px] text-gray-400 uppercase font-bold mb-1">Qualité Email</p>
+                  <div className="flex items-center gap-2">
+                    {customer.emailQuality === 'OK' ? (
+                      <span className="flex items-center gap-1 text-emerald-600 font-medium">
+                        <CheckCircle2 size={16} /> Valide
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-1 text-red-600 font-medium">
+                        <XCircle size={16} /> Invalide
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div>
+                  <p className="text-[10px] text-gray-400 uppercase font-bold mb-1">Qualité SMS</p>
+                  <div className="flex items-center gap-2">
+                    {customer.smsQuality === 'OK' ? (
+                      <span className="flex items-center gap-1 text-emerald-600 font-medium">
+                        <CheckCircle2 size={16} /> Valide
+                      </span>
+                    ) : (
+                      <span className="flex items-center gap-1 text-red-600 font-medium">
+                        <XCircle size={16} /> Invalide
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <p className="text-[10px] text-gray-400 uppercase font-bold mb-1">Canaux de communication</p>
+                <div className="flex gap-2">
+                  {customer.commChannels?.map(channel => (
+                    <Badge key={channel} variant="outline" className="text-[10px]">
+                      {channel === 'Email' && <Mail size={10} className="mr-1" />}
+                      {channel === 'SMS' && <MessageSquare size={10} className="mr-1" />}
+                      {channel}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2 pt-2 border-t border-gray-50">
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Canal préféré (Comm)</span>
+                  <span className="font-medium">{customer.preferredCommChannel}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Canal préféré (Achat)</span>
+                  <span className="font-medium flex items-center gap-1">
+                    <ShoppingBasket size={14} /> {customer.preferredPurchaseChannel}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-500">Dernier achat</span>
+                  <span className="font-medium">{customer.lastPurchaseDate}</span>
+                </div>
+              </div>
+            </div>
+          </Card>
         </div>
 
         {/* Right Column: Interactions & Recommendations */}
         <div className="lg:col-span-2 space-y-8">
           <section>
-            <h3 className="text-xl font-serif italic mb-4 flex items-center gap-2">
-              <Smartphone size={20} /> En cabine / Web
-            </h3>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-serif italic flex items-center gap-2">
+                <Smartphone size={20} /> En cabine / Web
+              </h3>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setIsAddingTried(!isAddingTried)}
+                className="text-xs h-8 px-3"
+              >
+                {isAddingTried ? <X size={14} /> : <Plus size={14} />} 
+                {isAddingTried ? 'Annuler' : 'Ajouter article essayé'}
+              </Button>
+            </div>
+
+            {isAddingTried && (
+              <Card className="mb-6 bg-onestock-blue/5 border-onestock-blue/10">
+                <div className="relative mb-4">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+                  <input 
+                    type="text"
+                    placeholder="Rechercher un article..."
+                    value={searchProduct}
+                    onChange={(e) => setSearchProduct(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 bg-white rounded-xl border-none focus:ring-2 focus:ring-onestock-blue text-sm"
+                  />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-60 overflow-y-auto pr-2">
+                  {availableProducts.map(p => (
+                    <div 
+                      key={p.id} 
+                      onClick={() => {
+                        onAddTriedItem(p.id);
+                        setIsAddingTried(false);
+                        setSearchProduct('');
+                      }}
+                      className="flex items-center gap-3 p-2 bg-white rounded-xl cursor-pointer hover:border-onestock-blue border border-transparent transition-all"
+                    >
+                      <img src={p.image} alt={p.name} className="w-10 h-10 rounded-lg object-cover" referrerPolicy="no-referrer" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium truncate">{p.name}</p>
+                        <p className="text-[10px] text-gray-500">{p.price}€</p>
+                      </div>
+                      <Plus size={14} className="text-onestock-blue" />
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Card className="bg-[#fcfcf7]">
+              <Card className="bg-onestock-light">
                 <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-4">Articles déjà essayés</h4>
                 <div className="space-y-3">
                   {triedProducts.map(p => (
@@ -278,7 +550,7 @@ const CustomerProfile = ({
                   {triedProducts.length === 0 && <p className="text-sm text-gray-400 italic">Aucun article essayé récemment</p>}
                 </div>
               </Card>
-              <Card className="bg-[#fcfcf7]">
+              <Card className="bg-onestock-light">
                 <h4 className="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-4">Consultés sur le web</h4>
                 <div className="space-y-3">
                   {webViewedProducts.map(p => (
@@ -404,12 +676,12 @@ const CheckoutView = ({ customer, onBack }: { customer: Customer, onBack: () => 
                   className={cn(
                     'p-4 rounded-2xl border-2 transition-all cursor-pointer flex items-center justify-between',
                     appliedRewards.includes(reward.id) 
-                      ? 'border-[#5A5A40] bg-[#5A5A40]/5' 
+                      ? 'border-onestock-blue bg-onestock-blue/5' 
                       : 'border-gray-100 hover:border-gray-200'
                   )}
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-[#f5f5f0] flex items-center justify-center text-[#5A5A40]">
+                    <div className="w-12 h-12 rounded-full bg-onestock-light flex items-center justify-center text-onestock-blue">
                       <Gift size={24} />
                     </div>
                     <div>
@@ -417,7 +689,7 @@ const CheckoutView = ({ customer, onBack }: { customer: Customer, onBack: () => 
                       <p className="text-xs text-gray-500 italic">Expire le {reward.expiryDate}</p>
                     </div>
                   </div>
-                  {appliedRewards.includes(reward.id) && <CheckCircle2 className="text-[#5A5A40]" />}
+                  {appliedRewards.includes(reward.id) && <CheckCircle2 className="text-onestock-blue" />}
                 </div>
               ))}
               {customer.rewards.length === 0 && (
@@ -426,7 +698,7 @@ const CheckoutView = ({ customer, onBack }: { customer: Customer, onBack: () => 
             </div>
           </Card>
 
-          <Card className="bg-[#1a1a1a] text-white">
+          <Card className="bg-onestock-navy text-white">
             <div className="space-y-4">
               <div className="flex justify-between text-gray-400">
                 <span>Sous-total</span>
@@ -446,7 +718,7 @@ const CheckoutView = ({ customer, onBack }: { customer: Customer, onBack: () => 
               <Info size={16} />
               <p>Points à gagner sur cet achat: <span className="text-white font-bold">+{Math.floor(finalTotal)} points</span></p>
             </div>
-            <Button onClick={() => setStep(2)} className="w-full mt-6 bg-white text-[#1a1a1a] hover:bg-gray-100">
+            <Button onClick={() => setStep(2)} className="w-full mt-6 bg-white text-onestock-navy hover:bg-gray-100">
               Confirmer le paiement
             </Button>
           </Card>
@@ -491,7 +763,7 @@ const SignupView = ({ onBack }: { onBack: () => void }) => {
         <div className="w-20 h-20 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center">
           <CheckCircle2 size={40} />
         </div>
-        <h2 className="text-3xl font-serif italic">Bienvenue chez Grain de Malice !</h2>
+        <h2 className="text-3xl font-serif italic">Bienvenue chez OneStock !</h2>
         <p className="text-gray-500">Votre compte fidélité est activé. Vous commencez avec 50 points de bienvenue.</p>
         <Button onClick={onBack} className="w-full">Accéder au profil</Button>
       </div>
@@ -511,24 +783,24 @@ const SignupView = ({ onBack }: { onBack: () => void }) => {
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <label className="text-xs font-semibold uppercase tracking-wider text-gray-400">Prénom</label>
-            <input type="text" className="w-full p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#5A5A40]" />
+            <input type="text" className="w-full p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-onestock-blue" />
           </div>
           <div className="space-y-2">
             <label className="text-xs font-semibold uppercase tracking-wider text-gray-400">Nom</label>
-            <input type="text" className="w-full p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#5A5A40]" />
+            <input type="text" className="w-full p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-onestock-blue" />
           </div>
         </div>
         <div className="space-y-2">
           <label className="text-xs font-semibold uppercase tracking-wider text-gray-400">Email</label>
-          <input type="email" className="w-full p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#5A5A40]" />
+          <input type="email" className="w-full p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-onestock-blue" />
         </div>
         <div className="space-y-2">
           <label className="text-xs font-semibold uppercase tracking-wider text-gray-400">Téléphone</label>
-          <input type="tel" className="w-full p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-[#5A5A40]" />
+          <input type="tel" className="w-full p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-onestock-blue" />
         </div>
-        <div className="flex items-center gap-3 p-4 bg-[#fcfcf7] rounded-2xl">
-          <input type="checkbox" className="w-5 h-5 rounded border-gray-300 text-[#5A5A40] focus:ring-[#5A5A40]" />
-          <p className="text-sm text-gray-600">J'accepte de recevoir les offres exclusives Grain de Malice</p>
+        <div className="flex items-center gap-3 p-4 bg-onestock-light rounded-2xl">
+          <input type="checkbox" className="w-5 h-5 rounded border-gray-300 text-onestock-blue focus:ring-onestock-blue" />
+          <p className="text-sm text-gray-600">J'accepte de recevoir les offres exclusives OneStock</p>
         </div>
         <Button onClick={() => setSuccess(true)} className="w-full">Créer mon compte</Button>
       </Card>
@@ -536,21 +808,31 @@ const SignupView = ({ onBack }: { onBack: () => void }) => {
   );
 };
 
-const MergeView = ({ customer, onBack }: { customer: Customer, onBack: () => void }) => {
+const MergeView = ({ 
+  customer, 
+  otherCustomers,
+  onBack,
+  onMergeComplete
+}: { 
+  customer: Customer, 
+  otherCustomers: Customer[],
+  onBack: () => void,
+  onMergeComplete: (id: string) => void
+}) => {
   const [selectedToMerge, setSelectedToMerge] = useState<Customer | null>(null);
   const [merged, setMerged] = useState(false);
 
-  const otherCustomers = MOCK_CUSTOMERS.filter(c => c.id !== customer.id);
-
-  if (merged) {
+  if (merged && selectedToMerge) {
     return (
       <div className="max-w-md mx-auto text-center space-y-6 py-20">
         <div className="w-20 h-20 rounded-full bg-emerald-100 text-emerald-600 mx-auto flex items-center justify-center">
-          <Merge size={40} />
+          <CheckCircle2 size={40} />
         </div>
         <h2 className="text-3xl font-serif italic">Fusion Réussie</h2>
         <p className="text-gray-500">Les historiques et points ont été consolidés sur le compte principal.</p>
-        <Button onClick={onBack} className="w-full">Retour au profil</Button>
+        <Button onClick={() => onMergeComplete(selectedToMerge.id)} className="w-full">
+          Retour au profil
+        </Button>
       </div>
     );
   }
@@ -565,8 +847,8 @@ const MergeView = ({ customer, onBack }: { customer: Customer, onBack: () => voi
       </nav>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-        <Card className="border-2 border-[#5A5A40] bg-[#5A5A40]/5">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-[#5A5A40] mb-2">Compte Principal</p>
+        <Card className="border-2 border-onestock-blue bg-onestock-blue/5">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-onestock-blue mb-2">Compte Principal</p>
           <h4 className="font-medium">{customer.firstName} {customer.lastName}</h4>
           <p className="text-xs text-gray-500">{customer.email}</p>
           <p className="mt-2 font-mono text-sm">{customer.points} pts</p>
@@ -622,16 +904,43 @@ const MergeView = ({ customer, onBack }: { customer: Customer, onBack: () => voi
 // --- Main App ---
 
 export default function App() {
-  const [view, setView] = useState<'dashboard' | 'profile' | 'checkout' | 'signup' | 'merge'>('dashboard');
-  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
+  const [view, setView] = useState<'dashboard' | 'profile' | 'checkout' | 'signup' | 'merge' | 'edit'>('dashboard');
+  const [customers, setCustomers] = useState<Customer[]>(MOCK_CUSTOMERS);
+  const [selectedCustomerId, setSelectedCustomerId] = useState<string | null>(null);
+
+  const selectedCustomer = useMemo(() => 
+    customers.find(c => c.id === selectedCustomerId) || null
+  , [customers, selectedCustomerId]);
 
   const handleSelectCustomer = (customer: Customer) => {
-    setSelectedCustomer(customer);
+    setSelectedCustomerId(customer.id);
     setView('profile');
   };
 
+  const handleUpdateCustomer = (updated: Customer) => {
+    setCustomers(prev => prev.map(c => c.id === updated.id ? updated : c));
+    setView('profile');
+  };
+
+  const handleAddTriedItem = (productId: string) => {
+    if (!selectedCustomer) return;
+    
+    const newInteraction = {
+      productId,
+      type: 'tried' as const,
+      date: new Date().toISOString().split('T')[0]
+    };
+
+    const updatedCustomer = {
+      ...selectedCustomer,
+      interactions: [newInteraction, ...selectedCustomer.interactions]
+    };
+
+    handleUpdateCustomer(updatedCustomer);
+  };
+
   return (
-    <div className="min-h-screen bg-[#f5f5f0] text-[#1a1a1a] font-sans selection:bg-[#5A5A40]/20">
+    <div className="min-h-screen bg-onestock-light text-onestock-navy font-sans selection:bg-onestock-blue/20">
       <main className="max-w-7xl mx-auto px-6 py-12">
         <AnimatePresence mode="wait">
           <motion.div
@@ -643,6 +952,7 @@ export default function App() {
           >
             {view === 'dashboard' && (
               <AdvisorDashboard 
+                customers={customers}
                 onSelectCustomer={handleSelectCustomer} 
                 onSignup={() => setView('signup')}
               />
@@ -654,6 +964,16 @@ export default function App() {
                 onBack={() => setView('dashboard')}
                 onCheckout={() => setView('checkout')}
                 onMerge={() => setView('merge')}
+                onEdit={() => setView('edit')}
+                onAddTriedItem={handleAddTriedItem}
+              />
+            )}
+
+            {view === 'edit' && selectedCustomer && (
+              <EditCustomerView 
+                customer={selectedCustomer}
+                onBack={() => setView('profile')}
+                onSave={handleUpdateCustomer}
               />
             )}
 
@@ -671,7 +991,12 @@ export default function App() {
             {view === 'merge' && selectedCustomer && (
               <MergeView 
                 customer={selectedCustomer} 
+                otherCustomers={customers.filter(c => c.id !== selectedCustomer.id)}
                 onBack={() => setView('profile')}
+                onMergeComplete={(mergedId) => {
+                  setCustomers(prev => prev.filter(c => c.id !== mergedId));
+                  setView('profile');
+                }}
               />
             )}
           </motion.div>
