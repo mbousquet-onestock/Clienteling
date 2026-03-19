@@ -45,6 +45,11 @@ function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+const formatCardNumber = (num: string | undefined | number) => {
+  if (num === undefined || num === null) return '';
+  return num.toString().replace(/\.0$/, '');
+};
+
 // --- Components ---
 
 const Button = ({ 
@@ -156,7 +161,7 @@ const AdvisorDashboard = ({
           </div>
           <input 
             type="text"
-            placeholder="Nom, Email, Carte..."
+            placeholder="Nom, Email, Carte de fidélité..."
             className="flex-1 py-3 bg-transparent outline-none text-sm"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -297,18 +302,24 @@ const EditCustomerView = ({
             />
           </div>
           <div className="space-y-2">
-            <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Type de carte</label>
-            <select 
-              name="loyaltyCardType"
-              value={formData.loyaltyCardType}
+            <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Carte de fidélité</label>
+            <input 
+              name="loyaltyCardNumber"
+              value={formData.loyaltyCardNumber || ''}
               onChange={handleChange}
               className="w-full p-3 bg-onestock-light rounded-xl border-none focus:ring-2 focus:ring-onestock-blue"
-            >
-              <option value="Physique">Physique</option>
-              <option value="Dématérialisée">Dématérialisée</option>
-              <option value="Collaborateur">Collaborateur</option>
-            </select>
+            />
           </div>
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Matricule</label>
+          <input 
+            name="staffNumber"
+            value={formData.staffNumber || ''}
+            onChange={handleChange}
+            className="w-full p-3 bg-onestock-light rounded-xl border-none focus:ring-2 focus:ring-onestock-blue"
+          />
         </div>
 
         <div className="pt-6">
@@ -463,9 +474,8 @@ const CustomerProfile = ({
               </div>
               
               <div className="mt-4 text-sm text-gray-500 space-y-1">
-                {customer.loyaltyCardNumber && <p>Carte: <span className="font-mono">{customer.loyaltyCardNumber}</span></p>}
-                {customer.loyaltyCardType && <p>Type: <span className="font-medium text-onestock-blue">{customer.loyaltyCardType}</span></p>}
-                {customer.staffNumber && <p>Matricule: <span className="font-mono">{customer.staffNumber}</span></p>}
+              {customer.loyaltyCardNumber && <p>Carte de fidélité: <span className="font-mono">{formatCardNumber(customer.loyaltyCardNumber)}</span></p>}
+                {customer.staffNumber && <p>Matricule: <span className="font-mono">{formatCardNumber(customer.staffNumber)}</span></p>}
               </div>
 
               <div className="mt-6 p-4 bg-onestock-light rounded-xl space-y-3">
@@ -580,7 +590,7 @@ const CustomerProfile = ({
                 onClick={() => setIsEditingChildren(true)}
                 className="p-1 hover:bg-gray-100 rounded-full text-gray-400"
               >
-                <Plus size={14} />
+                <Edit2 size={14} />
               </button>
             </div>
             <div className="space-y-3">
@@ -1609,7 +1619,7 @@ const MergeView = ({
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
             <input 
               type="text"
-              placeholder="Rechercher par nom, email ou carte..."
+              placeholder="Rechercher par nom, email ou carte de fidélité..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-3 bg-gray-50 rounded-xl border border-gray-100 focus:ring-2 focus:ring-onestock-blue outline-none text-sm transition-all"
@@ -1629,7 +1639,7 @@ const MergeView = ({
                 <div>
                   <p className="font-medium">{c.firstName} {c.lastName}</p>
                   <p className="text-xs text-gray-500">{c.email}</p>
-                  {c.loyaltyCardNumber && <p className="text-[10px] font-mono text-gray-400 mt-1">{c.loyaltyCardNumber}</p>}
+                  {c.loyaltyCardNumber && <p className="text-[10px] font-mono text-gray-400 mt-1">{formatCardNumber(c.loyaltyCardNumber)}</p>}
                 </div>
                 <div className="text-right">
                   <p className="font-mono text-sm">{c.points} pts</p>

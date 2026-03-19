@@ -339,7 +339,7 @@ export const MOCK_CUSTOMERS: Customer[] = [
     city: 'Nantes',
     zipCode: '44000',
     storeId: '12189',
-    loyaltyCardNumber: '9110000655870.0',
+    loyaltyCardNumber: '9110000655870',
     birthDate: '1975-11-30',
     preferredCommChannel: 'Store',
     preferredPurchaseChannel: 'Web',
@@ -386,7 +386,7 @@ export const MOCK_CUSTOMERS: Customer[] = [
     city: 'Toulouse',
     zipCode: '31000',
     storeId: '101',
-    loyaltyCardNumber: '9110000816028.0',
+    loyaltyCardNumber: '9110000816028',
     birthDate: '1988-01-10',
     preferredCommChannel: 'Web',
     preferredPurchaseChannel: 'Magasin',
@@ -415,7 +415,7 @@ export const MOCK_CUSTOMERS: Customer[] = [
     preferences: ['Staff Benefits'],
     lastVisit: '2026-01-24',
     isStaff: true,
-    staffNumber: '1000060596825.0',
+    staffNumber: '1000060596825',
     children: [
       { id: 'c6', firstName: 'Hugo', lastName: 'Thomas', gender: 'garçon', birthDate: '2014-08-22', preferredSizes: { shoes: '34', tops: '12 ans', pants: '12 ans' } },
       { id: 'c7', firstName: 'Chloé', lastName: 'Thomas', gender: 'fille', birthDate: '2019-03-30', preferredSizes: { shoes: '26', tops: '5 ans', pants: '5 ans' } }
@@ -430,7 +430,7 @@ export const MOCK_CUSTOMERS: Customer[] = [
     city: 'Marseille',
     zipCode: '13001',
     storeId: '7007',
-    loyaltyCardNumber: '9110000117804.0',
+    loyaltyCardNumber: '9110000117804',
     birthDate: '1982-09-05',
     preferredCommChannel: 'Store',
     preferredPurchaseChannel: 'Magasin',
@@ -462,7 +462,7 @@ export const MOCK_CUSTOMERS: Customer[] = [
     city: 'Paris',
     zipCode: '75001',
     storeId: '10267',
-    loyaltyCardNumber: '9710267094078.0',
+    loyaltyCardNumber: '9710267094078',
     children: [
       { id: 'c8', firstName: 'Alice', lastName: 'Bernard', gender: 'fille', birthDate: '2021-06-18', preferredSizes: { shoes: '22', tops: '3 ans', pants: '3 ans' } }
     ],
