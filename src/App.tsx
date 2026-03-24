@@ -539,28 +539,33 @@ const CustomerProfile = ({
                   <Info size={18} className="text-blue-500" /> Coordonnées
                 </h4>
               </div>
-              <div className="space-y-4 text-sm">
-                <div className="p-3 bg-gray-50 rounded-xl">
-                  <p className="text-[10px] text-gray-400 uppercase font-bold mb-2 flex items-center gap-1">
-                    <Globe size={10} /> Adresse
-                  </p>
-                  <p className="font-medium">{customer.address}</p>
-                  <p className="text-gray-500">{customer.zipCode} {customer.city}</p>
-                  <p className="text-gray-500">{customer.country}</p>
-                </div>
-                <div className="pt-2 border-t border-gray-100 space-y-2">
-                  <div>
-                    <p className="text-[10px] text-gray-400 uppercase font-bold">Contact</p>
-                    <p className="flex items-center gap-2"><Smartphone size={14} /> {customer.phone}</p>
-                    <p className="flex items-center gap-2"><Mail size={14} /> {customer.email}</p>
-                  </div>
-                  {customer.birthDate && (
-                    <div>
-                      <p className="text-[10px] text-gray-400 uppercase font-bold">Date de naissance</p>
-                      <p className="flex items-center gap-2"><Calendar size={14} /> {customer.birthDate}</p>
+              <div className="space-y-5 text-sm">
+                <div>
+                  <p className="text-[10px] text-gray-400 uppercase font-bold mb-1">Adresse</p>
+                  <div className="flex gap-2">
+                    <Globe size={14} className="text-gray-400 shrink-0 mt-0.5" />
+                    <div className="space-y-0.5">
+                      <p className="font-medium">{customer.address}</p>
+                      <p className="text-gray-500">{customer.zipCode} {customer.city}</p>
+                      <p className="text-gray-500">{customer.country}</p>
                     </div>
-                  )}
+                  </div>
                 </div>
+                
+                <div>
+                  <p className="text-[10px] text-gray-400 uppercase font-bold mb-1">Contact</p>
+                  <div className="space-y-1">
+                    <p className="flex items-center gap-2"><Smartphone size={14} className="text-gray-400" /> {customer.phone}</p>
+                    <p className="flex items-center gap-2"><Mail size={14} className="text-gray-400" /> {customer.email}</p>
+                  </div>
+                </div>
+
+                {customer.birthDate && (
+                  <div>
+                    <p className="text-[10px] text-gray-400 uppercase font-bold mb-1">Date de naissance</p>
+                    <p className="flex items-center gap-2"><Calendar size={14} className="text-gray-400" /> {customer.birthDate}</p>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -570,6 +575,13 @@ const CustomerProfile = ({
               </Button>
               <Button onClick={onMerge} variant="outline" className="w-full">
                 <Merge size={20} /> Fusionner Compte
+              </Button>
+              <Button 
+                onClick={() => window.location.href = 'https://o0058-qualif.onestock-retail.com/category'} 
+                variant="outline" 
+                className="w-full"
+              >
+                <ShoppingBag size={20} /> Catalogue
               </Button>
             </div>
           </Card>
