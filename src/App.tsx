@@ -322,6 +322,48 @@ const EditCustomerView = ({
           />
         </div>
 
+        <div className="space-y-4 pt-4 border-t border-gray-100">
+          <h4 className="text-sm font-bold uppercase tracking-widest text-gray-400">Adresse</h4>
+          <div className="space-y-2">
+            <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Rue</label>
+            <input 
+              name="address"
+              value={formData.address || ''}
+              onChange={handleChange}
+              className="w-full p-3 bg-onestock-light rounded-xl border-none focus:ring-2 focus:ring-onestock-blue"
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Code Postal</label>
+              <input 
+                name="zipCode"
+                value={formData.zipCode || ''}
+                onChange={handleChange}
+                className="w-full p-3 bg-onestock-light rounded-xl border-none focus:ring-2 focus:ring-onestock-blue"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Ville</label>
+              <input 
+                name="city"
+                value={formData.city || ''}
+                onChange={handleChange}
+                className="w-full p-3 bg-onestock-light rounded-xl border-none focus:ring-2 focus:ring-onestock-blue"
+              />
+            </div>
+          </div>
+          <div className="space-y-2">
+            <label className="text-xs font-bold uppercase tracking-widest text-gray-400">Pays</label>
+            <input 
+              name="country"
+              value={formData.country || ''}
+              onChange={handleChange}
+              className="w-full p-3 bg-onestock-light rounded-xl border-none focus:ring-2 focus:ring-onestock-blue"
+            />
+          </div>
+        </div>
+
         <div className="pt-6">
           <Button onClick={() => onSave(formData)} className="w-full">
             <Save size={20} /> Enregistrer les modifications
@@ -473,21 +515,21 @@ const CustomerProfile = ({
                 {customer.isStaff && <Badge variant="staff">Salarié</Badge>}
               </div>
               
-              <div className="mt-4 text-sm text-gray-500 space-y-1">
-              {customer.loyaltyCardNumber && <p>Carte de fidélité: <span className="font-mono">{formatCardNumber(customer.loyaltyCardNumber)}</span></p>}
-                {customer.staffNumber && <p>Matricule: <span className="font-mono">{formatCardNumber(customer.staffNumber)}</span></p>}
-              </div>
-
-              <div className="mt-6 p-4 bg-onestock-light rounded-xl space-y-3">
-                <div>
-                  <p className="text-xs uppercase tracking-widest text-gray-500 mb-1">Points Fidélité</p>
-                  <p className="text-4xl font-bold text-onestock-blue">{customer.points}</p>
-                </div>
-                <div className="pt-2 border-t border-onestock-blue/10 flex justify-between items-center">
+              <div className="mt-4 text-sm text-gray-500 space-y-2">
+                {customer.loyaltyCardNumber && <p>Carte de fidélité: <span className="font-mono">{formatCardNumber(customer.loyaltyCardNumber)}</span></p>}
+                <div className="flex items-center justify-center gap-2">
                   <p className="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Coupon</p>
                   <Badge variant={customer.hasCoupon ? 'gold' : 'outline'}>
                     {customer.hasCoupon ? 'Oui' : 'Non'}
                   </Badge>
+                </div>
+                {customer.staffNumber && <p>Matricule: <span className="font-mono">{formatCardNumber(customer.staffNumber)}</span></p>}
+              </div>
+
+              <div className="mt-6 p-4 bg-onestock-light rounded-xl">
+                <div>
+                  <p className="text-xs uppercase tracking-widest text-gray-500 mb-1">Points Fidélité</p>
+                  <p className="text-4xl font-bold text-onestock-blue">{customer.points}</p>
                 </div>
               </div>
             </div>
@@ -505,23 +547,13 @@ const CustomerProfile = ({
                 </button>
               </div>
               <div className="space-y-4 text-sm">
-                <div className="grid grid-cols-1 gap-4">
-                  <div className="p-3 bg-gray-50 rounded-xl">
-                    <p className="text-[10px] text-gray-400 uppercase font-bold mb-2 flex items-center gap-1">
-                      <CreditCard size={10} /> Facturation
-                    </p>
-                    <p className="font-medium">{customer.billingAddress?.street || customer.address}</p>
-                    <p className="text-gray-500">{customer.billingAddress?.zipCode || customer.zipCode} {customer.billingAddress?.city || customer.city}</p>
-                    <p className="text-gray-500">{customer.billingAddress?.country || customer.country}</p>
-                  </div>
-                  <div className="p-3 bg-gray-50 rounded-xl">
-                    <p className="text-[10px] text-gray-400 uppercase font-bold mb-2 flex items-center gap-1">
-                      <Truck size={10} /> Livraison
-                    </p>
-                    <p className="font-medium">{customer.shippingAddress?.street || customer.address}</p>
-                    <p className="text-gray-500">{customer.shippingAddress?.zipCode || customer.zipCode} {customer.shippingAddress?.city || customer.city}</p>
-                    <p className="text-gray-500">{customer.shippingAddress?.country || customer.country}</p>
-                  </div>
+                <div className="p-3 bg-gray-50 rounded-xl">
+                  <p className="text-[10px] text-gray-400 uppercase font-bold mb-2 flex items-center gap-1">
+                    <Globe size={10} /> Adresse
+                  </p>
+                  <p className="font-medium">{customer.address}</p>
+                  <p className="text-gray-500">{customer.zipCode} {customer.city}</p>
+                  <p className="text-gray-500">{customer.country}</p>
                 </div>
                 <div className="pt-2 border-t border-gray-100 space-y-2">
                   <div>
@@ -967,29 +999,56 @@ const CustomerProfile = ({
             </div>
             <div className="space-y-6">
               <div className="space-y-4">
-                <h4 className="font-medium text-sm flex items-center gap-2"><CreditCard size={16} /> Facturation</h4>
+                <h4 className="font-medium text-sm flex items-center gap-2"><Globe size={16} /> Adresse unique</h4>
                 <div className="grid grid-cols-1 gap-3">
-                  <input type="text" placeholder="Rue" defaultValue={customer.billingAddress?.street || customer.address} className="w-full p-2 border rounded-lg text-sm" />
+                  <input 
+                    type="text" 
+                    placeholder="Rue" 
+                    defaultValue={customer.address} 
+                    id="address-street"
+                    className="w-full p-2 border rounded-lg text-sm" 
+                  />
                   <div className="grid grid-cols-2 gap-3">
-                    <input type="text" placeholder="Code Postal" defaultValue={customer.billingAddress?.zipCode || customer.zipCode} className="p-2 border rounded-lg text-sm" />
-                    <input type="text" placeholder="Ville" defaultValue={customer.billingAddress?.city || customer.city} className="p-2 border rounded-lg text-sm" />
+                    <input 
+                      type="text" 
+                      placeholder="Code Postal" 
+                      defaultValue={customer.zipCode} 
+                      id="address-zip"
+                      className="p-2 border rounded-lg text-sm" 
+                    />
+                    <input 
+                      type="text" 
+                      placeholder="Ville" 
+                      defaultValue={customer.city} 
+                      id="address-city"
+                      className="p-2 border rounded-lg text-sm" 
+                    />
                   </div>
-                </div>
-              </div>
-              <div className="space-y-4 pt-4 border-t">
-                <h4 className="font-medium text-sm flex items-center gap-2"><Truck size={16} /> Livraison</h4>
-                <div className="grid grid-cols-1 gap-3">
-                  <input type="text" placeholder="Rue" defaultValue={customer.shippingAddress?.street || customer.address} className="w-full p-2 border rounded-lg text-sm" />
-                  <div className="grid grid-cols-2 gap-3">
-                    <input type="text" placeholder="Code Postal" defaultValue={customer.shippingAddress?.zipCode || customer.zipCode} className="p-2 border rounded-lg text-sm" />
-                    <input type="text" placeholder="Ville" defaultValue={customer.shippingAddress?.city || customer.city} className="p-2 border rounded-lg text-sm" />
-                  </div>
+                  <input 
+                    type="text" 
+                    placeholder="Pays" 
+                    defaultValue={customer.country} 
+                    id="address-country"
+                    className="w-full p-2 border rounded-lg text-sm" 
+                  />
                 </div>
               </div>
               <div className="flex gap-3 pt-4">
                 <Button onClick={() => {
-                  // In a real app we'd gather the input values. For this demo we'll just close.
-                  // But let's at least make it look like it's saving.
+                  const street = (document.getElementById('address-street') as HTMLInputElement).value;
+                  const zip = (document.getElementById('address-zip') as HTMLInputElement).value;
+                  const city = (document.getElementById('address-city') as HTMLInputElement).value;
+                  const country = (document.getElementById('address-country') as HTMLInputElement).value;
+                  
+                  onUpdateCustomer({
+                    ...customer,
+                    address: street,
+                    zipCode: zip,
+                    city: city,
+                    country: country,
+                    billingAddress: { street, zipCode: zip, city, country },
+                    shippingAddress: { street, zipCode: zip, city, country }
+                  });
                   setIsEditingAddresses(false);
                 }} className="flex-1">Enregistrer</Button>
                 <Button variant="outline" onClick={() => setIsEditingAddresses(false)} className="flex-1">Annuler</Button>
