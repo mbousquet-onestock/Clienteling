@@ -392,7 +392,6 @@ const CustomerProfile = ({
   const [isAddingTried, setIsAddingTried] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
   const [searchProduct, setSearchProduct] = useState('');
-  const [isEditingAddresses, setIsEditingAddresses] = useState(false);
   const [isEditingChildren, setIsEditingChildren] = useState(false);
   const [isEditingSizes, setIsEditingSizes] = useState(false);
   const [isEditingMarketing, setIsEditingMarketing] = useState(false);
@@ -539,12 +538,6 @@ const CustomerProfile = ({
                 <h4 className="font-medium flex items-center gap-2">
                   <Info size={18} className="text-blue-500" /> Coordonnées
                 </h4>
-                <button 
-                  onClick={() => setIsEditingAddresses(true)}
-                  className="p-1 hover:bg-gray-100 rounded-full text-gray-400"
-                >
-                  <Edit2 size={14} />
-                </button>
               </div>
               <div className="space-y-4 text-sm">
                 <div className="p-3 bg-gray-50 rounded-xl">
@@ -986,77 +979,6 @@ const CustomerProfile = ({
           </section>
         </div>
       </div>
-
-      {/* Address Edit Modal */}
-      {isEditingAddresses && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <Card className="w-full max-w-lg">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl font-serif italic">Modifier les adresses</h3>
-              <button onClick={() => setIsEditingAddresses(false)} className="p-2 hover:bg-gray-100 rounded-full">
-                <X size={20} />
-              </button>
-            </div>
-            <div className="space-y-6">
-              <div className="space-y-4">
-                <h4 className="font-medium text-sm flex items-center gap-2"><Globe size={16} /> Adresse unique</h4>
-                <div className="grid grid-cols-1 gap-3">
-                  <input 
-                    type="text" 
-                    placeholder="Rue" 
-                    defaultValue={customer.address} 
-                    id="address-street"
-                    className="w-full p-2 border rounded-lg text-sm" 
-                  />
-                  <div className="grid grid-cols-2 gap-3">
-                    <input 
-                      type="text" 
-                      placeholder="Code Postal" 
-                      defaultValue={customer.zipCode} 
-                      id="address-zip"
-                      className="p-2 border rounded-lg text-sm" 
-                    />
-                    <input 
-                      type="text" 
-                      placeholder="Ville" 
-                      defaultValue={customer.city} 
-                      id="address-city"
-                      className="p-2 border rounded-lg text-sm" 
-                    />
-                  </div>
-                  <input 
-                    type="text" 
-                    placeholder="Pays" 
-                    defaultValue={customer.country} 
-                    id="address-country"
-                    className="w-full p-2 border rounded-lg text-sm" 
-                  />
-                </div>
-              </div>
-              <div className="flex gap-3 pt-4">
-                <Button onClick={() => {
-                  const street = (document.getElementById('address-street') as HTMLInputElement).value;
-                  const zip = (document.getElementById('address-zip') as HTMLInputElement).value;
-                  const city = (document.getElementById('address-city') as HTMLInputElement).value;
-                  const country = (document.getElementById('address-country') as HTMLInputElement).value;
-                  
-                  onUpdateCustomer({
-                    ...customer,
-                    address: street,
-                    zipCode: zip,
-                    city: city,
-                    country: country,
-                    billingAddress: { street, zipCode: zip, city, country },
-                    shippingAddress: { street, zipCode: zip, city, country }
-                  });
-                  setIsEditingAddresses(false);
-                }} className="flex-1">Enregistrer</Button>
-                <Button variant="outline" onClick={() => setIsEditingAddresses(false)} className="flex-1">Annuler</Button>
-              </div>
-            </div>
-          </Card>
-        </div>
-      )}
 
       {/* Children Edit Modal */}
       {isEditingChildren && (
